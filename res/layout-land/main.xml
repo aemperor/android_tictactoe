@@ -1,0 +1,68 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/black"
+    android:gravity="center_horizontal"
+    android:orientation="horizontal"
+    android:paddingBottom="10dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingTop="10dp" >
+	
+    <aemperor.tictactoe.BoardView 
+ 		android:id="@+id/board" 
+ 		android:layout_width="240dp" 
+ 		android:layout_height="240dp" 
+ 		android:layout_marginTop="5dp"/> 
+ 		
+    <RelativeLayout
+    	android:layout_width="fill_parent"
+    	android:layout_height="fill_parent"
+    	android:gravity="center_horizontal"
+    	android:color="#000" >
+    	
+        <TextView android:id="@+id/information"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:textSize="20sp"
+        android:text="info"
+        android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/humanWins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/androidWins"
+            android:layout_below="@+id/information"
+            android:layout_marginTop="36dp"
+            android:gravity="center_horizontal"
+            android:text="TextView"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/androidWins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/humanWins"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="42dp"
+            android:text="TextView"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/ties"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/androidWins"
+            android:layout_below="@+id/androidWins"
+            android:layout_marginTop="34dp"
+            android:text="TextView"
+            android:textColor="@android:color/white" />
+        
+    </RelativeLayout>
+
+</LinearLayout>

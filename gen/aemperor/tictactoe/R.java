@@ -26,7 +26,8 @@ public final class R {
         public static final int new_game=0x7f020002;
         public static final int o_img=0x7f020003;
         public static final int quit_game=0x7f020004;
-        public static final int x_img=0x7f020005;
+        public static final int reset_scores=0x7f020005;
+        public static final int x_img=0x7f020006;
     }
     public static final class id {
         public static final int action_settings=0x7f090005;
@@ -36,7 +37,8 @@ public final class R {
         public static final int humanWins=0x7f090002;
         public static final int information=0x7f090001;
         public static final int new_game=0x7f090006;
-        public static final int quit=0x7f090008;
+        public static final int quit=0x7f090009;
+        public static final int reset_scores=0x7f090008;
         public static final int ties=0x7f090004;
     }
     public static final class layout {

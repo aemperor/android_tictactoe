@@ -1,0 +1,64 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="40dp"
+    android:paddingTop="40dp"
+    android:background="@android:color/black" >
+	
+    <aemperor.tictactoe.BoardView 
+ 		android:id="@+id/board" 
+ 		android:layout_width="300dp" 
+ 		android:layout_height="300dp" 
+ 		android:layout_marginTop="5dp"/> 
+    
+
+    <TextView android:id="@+id/information"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:textSize="20sp"
+        android:text="info"
+        android:textColor="@android:color/white" />
+    
+    <RelativeLayout
+    	android:layout_width="fill_parent"
+    	android:layout_height="fill_parent"
+    	android:color="#000" >
+
+        <TextView
+            android:id="@+id/humanWins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:text="TextView"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/androidWins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="TextView"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/ties"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/androidWins"
+            android:layout_alignBottom="@+id/androidWins"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="26dp"
+            android:text="TextView"
+            android:textColor="@android:color/white" />
+        
+    </RelativeLayout>
+
+</LinearLayout>

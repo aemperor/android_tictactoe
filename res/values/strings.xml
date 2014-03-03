@@ -21,6 +21,8 @@
     <string name="quit_message">Are you sure you want to quit?</string>
     <string name="quit_yes">Yes</string>
     <string name="quit_no">No</string>
+    <string name="x_goes_first">X</string>
+    <string name="o_goes_first">O</string>
     
 
 </resources>

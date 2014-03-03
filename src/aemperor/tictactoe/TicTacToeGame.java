@@ -220,8 +220,14 @@ public class TicTacToeGame {
 	 * @param location - The location (0-8) to place the move 
 	 */ 
 	public boolean setMove(char player, int location) {
-		mBoard[location] = player;
-		return true;
+		if (player == HUMAN_PLAYER && mBoard[location] == OPEN_SPOT) {
+			mBoard[location] = player;
+			return true;
+		}
+		else if (player == COMPUTER_PLAYER && mBoard[location] == COMPUTER_PLAYER)
+			return true;
+		
+		return false;
 	}
 	
 	public char getBoardOccupant(int pos) {

@@ -57,60 +57,44 @@ public class TicTacToeGame {
 	}
 	
 	private int getRandomMove() {
-		int move = -1;
-		char[] tempBoard = mBoard;
 		// Generate random move
-		do
-		{
+		int move = -1;
+		do {
 			move = mRand.nextInt(BOARD_SIZE);
-		} while (tempBoard[move] == HUMAN_PLAYER || tempBoard[move] == COMPUTER_PLAYER);
-			
-		Log.d(getClass().getName(), "Computer is moving to " + (move + 1));
+		} while (mBoard[move] != OPEN_SPOT);
 
-		tempBoard[move] = COMPUTER_PLAYER;
-
-		return move; // added
+		return move;
+		
 	}
 	
 	private int getWinningMove() {
-		char[] tempBoard = mBoard;
-		
-		// First see if there's a move O can make to win
 		for (int i = 0; i < BOARD_SIZE; i++) {
-			if (tempBoard[i] != HUMAN_PLAYER && tempBoard[i] != COMPUTER_PLAYER) {
-				char curr = tempBoard[i];
-				tempBoard[i] = COMPUTER_PLAYER;
-				if (checkForWinner(tempBoard) == 3) {
-					Log.d(getClass().getName(), "Computer is moving to " + (i + 1));
+			if (mBoard[i] == OPEN_SPOT) {
+				mBoard[i] = COMPUTER_PLAYER;
+				if (checkForWinner() == 3) {
+					mBoard[i] = OPEN_SPOT; // restore
 					return i;
 				}
 				else
-					tempBoard[i] = curr;
+					mBoard[i] = OPEN_SPOT;
 			}
 		}
-		
-		return -1;
+		return -1; // never found a winning move
 	}
 	
 	private int getBlockingMove() {
-		char[] tempBoard = mBoard;
-		
-		// See if there's a move O can make to block X from winning
 		for (int i = 0; i < BOARD_SIZE; i++) {
-			if (tempBoard[i] != HUMAN_PLAYER && tempBoard[i] != COMPUTER_PLAYER) {
-				char curr = tempBoard[i];   // Save the current number
-				tempBoard[i] = HUMAN_PLAYER;
-				if (checkForWinner(tempBoard) == 2) {
-					tempBoard[i] = COMPUTER_PLAYER;
-					Log.d(getClass().getName(), "Computer is moving to " + (i + 1));
+			if (mBoard[i] == OPEN_SPOT) {
+				mBoard[i] = HUMAN_PLAYER;
+				if (checkForWinner() == 2) {
+					mBoard[i] = OPEN_SPOT; // restore
 					return i;
 				}
 				else
-					tempBoard[i] = curr;
+					mBoard[i] = OPEN_SPOT;
 			}
 		}
-		
-		return -1;
+		return -1; // never found a blocking move
 	}
 	
 	
@@ -220,13 +204,10 @@ public class TicTacToeGame {
 	 * @param location - The location (0-8) to place the move 
 	 */ 
 	public boolean setMove(char player, int location) {
-		if (player == HUMAN_PLAYER && mBoard[location] == OPEN_SPOT) {
+		if (mBoard[location] == OPEN_SPOT) {
 			mBoard[location] = player;
 			return true;
 		}
-		else if (player == COMPUTER_PLAYER && mBoard[location] == COMPUTER_PLAYER)
-			return true;
-		
 		return false;
 	}
 	
@@ -240,6 +221,59 @@ public class TicTacToeGame {
 	
 	public void setBoardState(char[] board) {
 		this.mBoard = board;
+	}
+	
+	public int checkForWinner() {
+
+		// Check horizontal wins
+		for (int i = 0; i <= 6; i += 3)	{
+			if (mBoard[i] == HUMAN_PLAYER && 
+					mBoard[i+1] == HUMAN_PLAYER &&
+					mBoard[i+2]== HUMAN_PLAYER)
+				return 2;
+			if (mBoard[i] == COMPUTER_PLAYER && 
+					mBoard[i+1]== COMPUTER_PLAYER && 
+					mBoard[i+2] == COMPUTER_PLAYER)
+				return 3;
+		}
+
+		// Check vertical wins
+		for (int i = 0; i <= 2; i++) {
+			if (mBoard[i] == HUMAN_PLAYER && 
+					mBoard[i+3] == HUMAN_PLAYER && 
+					mBoard[i+6]== HUMAN_PLAYER)
+				return 2;
+			if (mBoard[i] == COMPUTER_PLAYER && 
+					mBoard[i+3] == COMPUTER_PLAYER && 
+					mBoard[i+6]== COMPUTER_PLAYER)
+				return 3;
+		}
+
+		// Check for diagonal wins
+		if ((mBoard[0] == HUMAN_PLAYER &&
+				mBoard[4] == HUMAN_PLAYER && 
+				mBoard[8] == HUMAN_PLAYER) ||
+				(mBoard[2] == HUMAN_PLAYER && 
+				mBoard[4] == HUMAN_PLAYER &&
+				mBoard[6] == HUMAN_PLAYER))
+			return 2;
+		if ((mBoard[0] == COMPUTER_PLAYER &&
+				mBoard[4] == COMPUTER_PLAYER && 
+				mBoard[8] == COMPUTER_PLAYER) ||
+				(mBoard[2] == COMPUTER_PLAYER && 
+				mBoard[4] == COMPUTER_PLAYER &&
+				mBoard[6] == COMPUTER_PLAYER))
+			return 3;
+
+		// Check for tie
+		for (int i = 0; i < BOARD_SIZE; i++) {
+			// If we find a number, then no one has won yet
+			if (mBoard[i] != HUMAN_PLAYER && mBoard[i] != COMPUTER_PLAYER)
+				return 0;
+		}
+
+		// If we make it through the previous loop, all places are taken, so it's a tie
+		return 1;
 	}
 	
 	

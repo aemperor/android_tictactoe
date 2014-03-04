@@ -73,6 +73,7 @@ public class AndroidTicTacToe extends Activity {
 		ties = mPrefs.getInt("mTies", 0); 
 		
 		mSoundOn = mPrefs.getBoolean("sound", true);
+		mPauseHandler = new Handler();
 		
 		
 		mTurn = TicTacToeGame.HUMAN_PLAYER;
@@ -85,7 +86,7 @@ public class AndroidTicTacToe extends Activity {
 			 mBoardView.invalidate();
 			 mGameOver = savedInstanceState.getBoolean("mGameOver"); 
 			 mTurn = savedInstanceState.getChar("mTurn"); 
-//			 mGoesFirst = savedInstanceState.getChar("mGoesFirst"); 
+			 mGoesFirst = savedInstanceState.getString("mGoesFirst"); 
 			 mInfoTextView.setText(savedInstanceState.getCharSequence("info")); 
 			 hWins = savedInstanceState.getInt("mHumanWins"); 
 			 aWins = savedInstanceState.getInt("mAndroidWins"); 
@@ -200,7 +201,7 @@ public class AndroidTicTacToe extends Activity {
 		 splitt = s.split(" ");
 		 i = Integer.valueOf(splitt[1]);
 		 ed.putInt("mTies", i); 
-		 
+		 ed.putString("mGoesFirst", mGoesFirst);
 		 ed.apply(); 
 	}
 	
@@ -249,6 +250,14 @@ public class AndroidTicTacToe extends Activity {
 		 i = Integer.valueOf(splitt[1]);
 		 outState.putInt("mTies", i); 
 		 outState.putCharSequence("info", mInfoTextView.getText()); 
+		 
+		 stopComputerDelay();
+	}
+	
+	private void stopComputerDelay() {
+		if(mRunnable != null) {
+			mPauseHandler.removeCallbacks(mRunnable);
+		}
 	}
 	
 	@Override
@@ -281,10 +290,7 @@ public class AndroidTicTacToe extends Activity {
 			mSounds.release();
 			mSounds = null;
 		}
-		
 	}
-	
-	
 	
 	private void startNewGame() {
 		mGame.clearBoard();
@@ -300,18 +306,39 @@ public class AndroidTicTacToe extends Activity {
 	}
 	
 	private boolean setMove(char player, int loc) {
-		if (mGame.setMove(player, loc)) { 
-			 mBoardView.invalidate(); // Redraw the board 
-			 if (player == mGame.HUMAN_PLAYER && mSoundOn) {
-				 mSounds.play(mHumanMoveSoundID, 1, 1, 1, 0, 1);
-			 }
-			 if (player == mGame.COMPUTER_PLAYER && mSoundOn) {
-				 mSounds.play(mComputerMoveSoundID, 1, 1, 1, 0, 1);
-			 }
+		 if (player == mGame.COMPUTER_PLAYER) {
+			 mRunnable = createRunnable(loc);
+			 mPauseHandler.postDelayed(mRunnable, 1000);
 			 return true;
-		} 
+		 }
+		 else if (mGame.setMove(TicTacToeGame.HUMAN_PLAYER, loc)) {
+			 mTurn = TicTacToeGame.COMPUTER_PLAYER;
+			 mBoardView.invalidate();   // Redraw the board
+			 if (mSoundOn)
+				 mSounds.play(mHumanMoveSoundID, 1, 1, 1, 0, 1);	    	   	
+			 return true;
+		 }
 		return false;
 	} 
+	
+	private Runnable createRunnable(final int location) {
+		return new Runnable() {
+			public void run() {
+				mGame.setMove(TicTacToeGame.COMPUTER_PLAYER, location);
+				if (mSoundOn)
+					mSounds.play(mComputerMoveSoundID, 1, 1, 1, 0, 1);
+				mBoardView.invalidate();   // Redraw the board
+
+				int winner = mGame.checkForWinner();
+				if (winner == 0) {
+					mTurn = TicTacToeGame.HUMAN_PLAYER;	                                	
+					mInfoTextView.setText(R.string.turn_human);
+				}
+				else 
+					endGame(winner);
+			}
+		};
+	}
 	
 	
 	

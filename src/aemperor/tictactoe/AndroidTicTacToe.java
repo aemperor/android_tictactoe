@@ -324,6 +324,7 @@ public class AndroidTicTacToe extends Activity {
 	private Runnable createRunnable(final int location) {
 		return new Runnable() {
 			public void run() {
+				mInfoTextView.setText(R.string.turn_computer);
 				mGame.setMove(TicTacToeGame.COMPUTER_PLAYER, location);
 				if (mSoundOn)
 					mSounds.play(mComputerMoveSoundID, 1, 1, 1, 0, 1);
@@ -361,7 +362,6 @@ public class AndroidTicTacToe extends Activity {
 				}
 				
 				winner = mGame.checkForWinner(mGame.getBoard());
-				mInfoTextView.setText(R.string.turn_human);
 				
 				if (winner == 0)
 					mInfoTextView.setText(R.string.turn_human);

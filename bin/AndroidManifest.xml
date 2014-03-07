@@ -12,7 +12,8 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:debuggable="true" >
         <activity
             android:name="aemperor.tictactoe.AndroidTicTacToe"
             android:label="@string/app_name" >
@@ -24,8 +25,11 @@
         </activity>
         
         <!-- Allow the Settings activity to be launched --> 
-		<activity android:name=".Settings" android:label="Settings">
-		    
+		<activity android:name=".Settings" android:label="Settings"
+		    android:parentActivityName="aemperor.tictactoe.AndroidTicTacToe">
+		    <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="aemperor.tictactoe.AndroidTicTacToe" />
 		</activity> 
     </application>
 
